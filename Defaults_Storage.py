@@ -1,3 +1,5 @@
+import numpy as np
+
 class Default(object):
     def __init__(self,vis_definition):
         self.vis_definition = vis_definition
@@ -7,17 +9,18 @@ class Default(object):
             object_dicc = {
                 "object": 0,
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":16,"height":16,"icon_on":"vidgets-dot_on.svg","icon_off":"vidgets-dot_off.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":60,"height":60,"icon_on":"vidgets-dot_on.svg","icon_off":"vidgets-dot_off.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "nobg": 1,
                 "statusobject": 0,
-                "readonly": 1,
+                "readonly": 0,
                 "name": "",
                 "locy": 0,
                 "type": 0,
                 "locx": 0,
                 "floor": 0,
-                "notouch": 0
+                "notouch": 0,
+                "visparams" : "",
             }
 
         elif type == 1:
@@ -145,13 +148,28 @@ class Default(object):
 
         return page_def
 
-    def structures(self,type):
+    def structures(self,n_page,n_structure,struc_area):
         object_list = []
-        if type == 1:
-            object_list.append(self.objects(0))
-            object_list.append(self.objects(0))
+        struc_type = self.vis_definition["pages"][n_page]["structures"][n_structure]["type"]
+        grid_pos = np.asarray(self.vis_definition["pages"][n_page]["structures"][n_structure]["grid_pos"])
+        cell_size = [struc_area["cell_size"][0]*(grid_pos[0][1]-grid_pos[0][0]+1),\
+                     struc_area["cell_size"][1]*(grid_pos[1][1]-grid_pos[1][0]+1)]
 
-        if type == 2:
+        # Todos los datos geometricos de longitud estan en porcentage de cell_size
+        if struc_type == 1:
+            object_list.append(self.objects(0))
+            locx = 100
+            locy = 100
+            object_list[0]["locx"] = cell_size[0]*locx/100
+            object_list[0]["locy"] = cell_size[1]*locy/100
+
+            object_list.append(self.objects(0))
+            locx = 0
+            locy = 0
+            object_list[1]["locx"] = cell_size[0]*locx/100
+            object_list[1]["locy"] = cell_size[1]*locy/100
+
+        if struc_type == 2:
             object_list.append(self.objects(0))
             object_list.append(self.objects(6))
 

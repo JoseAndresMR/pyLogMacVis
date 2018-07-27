@@ -10,8 +10,8 @@ vis_definition= {
             "background": "BG_1024x1280px.jpg",
             "structures":{
                 "1": {
-                    "type" : 2,
-                    "grid_pos" : [[1,2],[1,2]],
+                    "type" : 1,
+                    "grid_pos" : [[3,4],[3,4]],
                     "objects" : [
                         {
                             "id" : 1
@@ -23,40 +23,40 @@ vis_definition= {
                 }
             },
             "objects": [
-                {
-                    "object": 9,
-                    "id": 3,
-                    "sortorder": 4,
-                    "cls": "",
-                    "nobg": 1,
-                    "statusobject": 9,
-                    "readonly": 0,
-                    "name": "",
-                    "locy": 50,
-                    "type": 0,
-                    "locx": 50,
-                    "floor": 1,
-                    "notouch": 0,
-                    "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":139,"height":129,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0}
-                },
-                {
-                    "object": 9,
-                    "id": 4,
-                    "sortorder": 4,
-                    "cls": "",
-                    "nobg": 1,
-                    "statusobject": 9,
-                    "readonly": 0,
-                    "name": "",
-                    "locy": 100,
-                    "type": 0,
-                    "locx": 100,
-                    "floor": 1,
-                    "notouch": 0,
-                    "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":139,"height":129,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0}
-                }
+                # {
+            #         "object": 9,
+            #         "id": 2121,
+            #         "sortorder": 4,
+            #         "cls": "",
+            #         "nobg": 1,
+            #         "statusobject": 9,
+            #         "readonly": 0,
+            #         "name": "",
+            #         "locy": 50,
+            #         "type": 0,
+            #         "locx": 50,
+            #         "floor": 149,
+            #         "notouch": 0,
+            #         "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":60,"height":60,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0,"icon_touch":""}
+            #     },
+            #     {
+            #         "object": 10,
+            #         "id": 4,
+            #         "sortorder": 4,
+            #         "cls": "",
+            #         "nobg": 1,
+            #         "statusobject": 10,
+            #         "readonly": 0,
+            #         "name": "",
+            #         "locy": 100,
+            #         "type": 0,
+            #         "locx": 100,
+            #         "floor": 1,
+            #         "notouch": 0,
+            #         "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":139,"height":129,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0}
+            #     }
             ],
-            "grid_size" : [3,4]
+            "grid_size" : [4,4]
         }
     },
     "levels": {
@@ -75,7 +75,7 @@ vis_definition= {
     },
     "id" : 2, # Debe apuntar siempre a uno de los niveles definidos
     "screen_info" : {
-        "screen_resolution" : [644,361],
+        "screen_resolution" : [900,900],
         "margins" : [50,50]
     }   
 }

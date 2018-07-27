@@ -2,8 +2,6 @@ import json
 import numpy as np
 from Defaults_Storage import *
 
-
-
 class VJC(object):
     def __init__(self,vis_definition):
         self.vis_definition = vis_definition
@@ -32,10 +30,9 @@ class VJC(object):
             self.add_object(n_page,i)
 
     def add_structure(self,n_page,n_structure):
-        struc_type = self.vis_definition["pages"][n_page]["structures"][n_structure]["type"]
         struc_area = self.get_struc_area(n_page,n_structure)
 
-        object_list = self.dflt.structures(struc_type)
+        object_list = self.dflt.structures(n_page,n_structure,struc_area)
 
         for i in range(len(object_list)):
             for key in self.vis_definition["pages"][n_page]["structures"][n_structure]["objects"][i].keys():
@@ -43,6 +40,9 @@ class VJC(object):
 
             object_list[i]["locx"] = object_list[i]["locx"] + struc_area["struc_pos"][0]
             object_list[i]["locy"] = object_list[i]["locy"] + struc_area["struc_pos"][1]
+
+            print object_list[i]["locx"]
+            print object_list[i]["locy"]
 
             self.add_object_from_struc(n_page,object_list[i])
 
@@ -91,8 +91,6 @@ class VJC(object):
             elif type(params_dicc[key]) == str:
                 params_unicode = params_unicode + "\"{0}\":\"{1}\"".format(key,object_dicc["params"][key])
 
-            
-
         params_unicode = params_unicode + "}"
 
         object_dicc["params"] = params_unicode
@@ -103,15 +101,12 @@ class VJC(object):
         grid_size = np.asarray(self.vis_definition["pages"][n_page]["grid_size"])
         grid_pos = np.asarray(self.vis_definition["pages"][n_page]["structures"][n_structure]["grid_pos"])
         
-        useful_resolution = screen_resolution - margins
+        useful_resolution = screen_resolution - margins*2
         cell_size = useful_resolution / grid_size
-        locx = margins[0] + cell_size[0] * grid_pos[0][0] \
-               + cell_size[0] / 2 * ( grid_pos[0][1] - grid_pos[0][0] )
-        locy = margins[1] + cell_size[1] * grid_pos[1][0] \
-               + cell_size[1] / 2 * ( grid_pos[1][1] - grid_pos[1][0] )
+        locx = margins[0] + cell_size[0] * (grid_pos[0][0]-1)
+        locy = margins[1] + cell_size[1] * (grid_pos[1][0]-1)
 
         struc_area = {"struc_pos" : [locx,locy], "cell_size" : cell_size}
 
-        return struc_area
 
-    
+        return struc_area

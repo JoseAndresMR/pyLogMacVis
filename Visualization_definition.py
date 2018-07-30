@@ -3,12 +3,15 @@ import os
 import csv
 
 vis_definition= {
+    "lws":{
+
+    },
     "pages": {
         "1":{
             "name": "level 2 A",
             "building": 3,
             "id": 1,
-            "background": "BG_1024x1280px.jpg",
+            "background": "TOLEDO.jpg",
             "layout": 6,
             "structures":{
                 "1": {
@@ -26,7 +29,7 @@ vis_definition= {
             },
             "objects": [
                 {
-                    "name" : "nivel 2 B",
+                    "object": 2,
                     "type" : 2
                 }
             
@@ -55,7 +58,7 @@ vis_definition= {
             },
             "objects": [
                 {
-                    "name" : "nivel 2 A",
+                    "object": 1,
                     "type" : 2
                 }
             ],
@@ -84,7 +87,7 @@ vis_definition= {
     },
     "id" : 2, # Debe apuntar siempre a uno de los niveles definidos
     "screen_info" : {
-        "screen_resolution" : [500,500],
+        "screen_resolution" : [1000,1000],
         "margins" : [10,10]
     }   
 }

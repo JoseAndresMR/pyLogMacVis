@@ -44,6 +44,7 @@ class VJC(object):
             self.add_object_from_struc(n_page,object_list[i])
 
     def add_object_from_struc(self,n_page,object_dicc):
+        object_dicc["floor"] = self.vis_definition["pages"][n_page]["id"]
         self.params_to_unicode(object_dicc)
         self.json_obj["plans"][n_page]["objects"].append(object_dicc)
 
@@ -53,6 +54,7 @@ class VJC(object):
         for key in self.vis_definition["pages"][n_page]["objects"][n_object].keys():
             object_dicc[key] = self.vis_definition["pages"][n_page]["objects"][n_object][key]
 
+        object_dicc["floor"] = self.vis_definition["pages"][n_page]["id"]
         self.params_to_unicode(object_dicc)
         self.json_obj["plans"][n_page]["objects"].append(object_dicc)
 

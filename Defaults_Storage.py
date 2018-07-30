@@ -41,11 +41,11 @@ class Default(object):
                 "notouch": 0
             }
 
-        elif type == 2:
+        elif type == 2:    # Boton para ir a otras paginas. El "id" de esa pagina debe ser...
             object_dicc = {
-                "object": 0,
+                "object": 0,    # ... este
                 "id": 0,
-                "params": {"size":"","bold":0,"italic":0,"underline":0,"width":440,"height":84,"displaymode":"icon","icon":"S_01_02_plan_link-01.svg","icon_active":"S_01_02_plan_link-02.svg"},
+                "params": {"size":"","bold":0,"italic":0,"underline":0,"width":440,"height":84,"displaymode":"icon","icon":"socket.svg","icon_active":"socket.svg"},
                 "sortorder": 4,
                 "cls": "",
                 "nobg": 1,
@@ -121,6 +121,27 @@ class Default(object):
             }
         
         return object_dicc
+
+    def lws(self,type):
+        page_def = {
+            "width": self.vis_definition["screen_info"]["screen_resolution"][0],
+            "layout": 0,
+            "id": 1,
+            "background": "empty.png",
+            "adminonly": 0,
+            "building": 0,
+            "name": "all",
+            "usermode_param": "",
+            "bgcolor": "#FFFFFF",
+            "sortorder": 1,
+            "bgrepeat": 0,
+            "type": "layout",
+            "touch_param": "",
+            "height": self.vis_definition["screen_info"]["screen_resolution"][1],
+            "objects": []
+        }
+
+        return page_def
 
     def pages(self,type):
         if type == 1:

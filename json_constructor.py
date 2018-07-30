@@ -41,9 +41,6 @@ class VJC(object):
             object_list[i]["locx"] = object_list[i]["locx"] + struc_area["struc_pos"][0]
             object_list[i]["locy"] = object_list[i]["locy"] + struc_area["struc_pos"][1]
 
-            print object_list[i]["locx"]
-            print object_list[i]["locy"]
-
             self.add_object_from_struc(n_page,object_list[i])
 
     def add_object_from_struc(self,n_page,object_dicc):
@@ -74,26 +71,36 @@ class VJC(object):
         obj.write(encoded)
         obj.close
 
-    def params_to_unicode(self,object_dicc):
-        params_dicc = object_dicc["params"]
-        params_unicode = "{"
-        for key in object_dicc["params"].keys():
-            if params_unicode != "{":
-                params_unicode = params_unicode + ","
-            if type(params_dicc[key]) == int:
-                params_unicode = params_unicode + "\"{0}\":{1}".format(key,object_dicc["params"][key])
-            elif type(params_dicc[key]) == str and params_dicc[key] == "null":
-                params_unicode = params_unicode + "\"{0}\":null".format(key)
-            elif type(params_dicc[key]) == str and params_dicc[key] == "false":
-                params_unicode = params_unicode + "\"{0}\":false".format(key)
-            elif type(params_dicc[key]) == str and params_dicc[key] == "[]":
-                params_unicode = params_unicode + "\"{0}\":[]".format(key)
-            elif type(params_dicc[key]) == str:
-                params_unicode = params_unicode + "\"{0}\":\"{1}\"".format(key,object_dicc["params"][key])
+    def params_to_unicode(self,object_dicc):   # Abreviar esta funcion
+        object_dicc["params"] = self.dicc_to_unicode(object_dicc["params"])
 
-        params_unicode = params_unicode + "}"
+    def dicc_to_unicode(self,dicc_to_change):
+        dicc_in_unicode = ""
+        for key in dicc_to_change.keys():
+            if dicc_in_unicode != "":
+                dicc_in_unicode = dicc_in_unicode + ","
+            if type(dicc_to_change[key]) == int:
+                dicc_in_unicode = dicc_in_unicode + "\"{0}\":{1}".format(key,dicc_to_change[key])
+            elif dicc_to_change[key] == "null":
+                dicc_in_unicode = dicc_in_unicode + "\"{0}\":null".format(key)
+            elif dicc_to_change[key] == "false":
+                dicc_in_unicode = dicc_in_unicode + "\"{0}\":false".format(key)
+            elif type(dicc_to_change[key]) == list:
+                sub_list_in_unicode = ""
+                for i in range(len(dicc_to_change[key])):
+                    if sub_list_in_unicode != "":
+                        sub_list_in_unicode = sub_list_in_unicode + ","
+                    sub_dicc_in_unicode = self.dicc_to_unicode(dicc_to_change[key][i])
+                    sub_list_in_unicode = sub_list_in_unicode + sub_dicc_in_unicode
+                sub_list_in_unicode = "[" + sub_list_in_unicode + "]"
+                dicc_in_unicode = dicc_in_unicode + '\"{0}\":{1}'.format(key,sub_list_in_unicode)
 
-        object_dicc["params"] = params_unicode
+            elif type(dicc_to_change[key]) == str:
+                dicc_in_unicode = dicc_in_unicode + "\"{0}\":\"{1}\"".format(key,dicc_to_change[key])
+
+        dicc_in_unicode = "{" + dicc_in_unicode + "}"
+
+        return dicc_in_unicode
 
     def get_struc_area(self,n_page,n_structure):
         screen_resolution = np.asarray(self.vis_definition["screen_info"]["screen_resolution"])

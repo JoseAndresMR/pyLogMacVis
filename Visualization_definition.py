@@ -5,13 +5,15 @@ import csv
 vis_definition= {
     "pages": {
         "1":{
-            "name": "nivel 1",
-            "building": 2,
+            "name": "level 2 A",
+            "building": 3,
+            "id": 1,
             "background": "BG_1024x1280px.jpg",
+            "layout": 6,
             "structures":{
                 "1": {
                     "type" : 1,
-                    "grid_pos" : [[3,4],[3,4]],
+                    "grid_pos" : [[1,1],[1,1]],
                     "objects" : [
                         {
                             "id" : 1
@@ -23,40 +25,41 @@ vis_definition= {
                 }
             },
             "objects": [
-                # {
-            #         "object": 9,
-            #         "id": 2121,
-            #         "sortorder": 4,
-            #         "cls": "",
-            #         "nobg": 1,
-            #         "statusobject": 9,
-            #         "readonly": 0,
-            #         "name": "",
-            #         "locy": 50,
-            #         "type": 0,
-            #         "locx": 50,
-            #         "floor": 149,
-            #         "notouch": 0,
-            #         "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":60,"height":60,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0,"icon_touch":""}
-            #     },
-            #     {
-            #         "object": 10,
-            #         "id": 4,
-            #         "sortorder": 4,
-            #         "cls": "",
-            #         "nobg": 1,
-            #         "statusobject": 10,
-            #         "readonly": 0,
-            #         "name": "",
-            #         "locy": 100,
-            #         "type": 0,
-            #         "locx": 100,
-            #         "floor": 1,
-            #         "notouch": 0,
-            #         "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":139,"height":129,"icon_on":"bulb-active.svg","icon_off":"bulb.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0}
-            #     }
+                {
+                    "name" : "nivel 2 B",
+                    "type" : 2
+                }
+            
             ],
-            "grid_size" : [4,4]
+            "grid_size" : [1,1]
+        },
+        "2":{
+            "name": "level 2 B",
+            "building": 4,
+            "id": 2,
+            "background": "BG_1024x1280px.jpg",
+            "layout" : 6,
+            "structures":{
+                "1": {
+                    "type" : 1,
+                    "grid_pos" : [[1,2],[1,1]],
+                    "objects" : [
+                        {
+                            "id" : 1
+                        },
+                        {
+                            "id" : 2
+                        }
+                    ]
+                },
+            },
+            "objects": [
+                {
+                    "name" : "nivel 2 A",
+                    "type" : 2
+                }
+            ],
+            "grid_size" : [2,2]
         }
     },
     "levels": {
@@ -68,15 +71,21 @@ vis_definition= {
         },
         "3": {
             "id" : 3,
-            "name" : "nivel 2",
-            "sortorder": 1,
+            "name" : "nivel 2 A",
+            "sortorder": 2,
+            "parent": 2
+        },
+        "4": {
+            "id" : 4,
+            "name" : "nivel 2 B",
+            "sortorder": 2,
             "parent": 2
         }
     },
     "id" : 2, # Debe apuntar siempre a uno de los niveles definidos
     "screen_info" : {
-        "screen_resolution" : [900,900],
-        "margins" : [50,50]
+        "screen_resolution" : [500,500],
+        "margins" : [10,10]
     }   
 }
 

@@ -9,7 +9,7 @@ class Default(object):
             object_dicc = {
                 "object": 0,
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":60,"height":60,"icon_on":"vidgets-dot_on.svg","icon_off":"vidgets-dot_off.svg","icons_add":"[]","displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":30,"height":30,"icon_on":"vidgets-dot_on.svg","icon_off":"vidgets-dot_off.svg","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "nobg": 1,
                 "statusobject": 0,
@@ -27,7 +27,7 @@ class Default(object):
             object_dicc = {
                 "object": 0,
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":140,"height":130,"icon_default":"S_01_02_scene-03.svg","icons_add":[{"min":1,"max":1,"icon":"S_01_02_scene-04.svg"},{"min":2,"max":2,"icon":"S_01_02_scene-03.svg"},{"min":3,"max":3,"icon":"S_01_02_scene-04.svg"}],"displaymode":"icon","showcontrol":0,"fixedvalue":"2","update":false,"pincode":"","widget":null,"backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":140,"height":130,"icon_default":"S_01_02_scene-03.svg","icons_add":[{"min":1,"max":1,"icon":"S_01_02_scene-04.svg"},{"min":2,"max":2,"icon":"S_01_02_scene-03.svg"},{"min":3,"max":3,"icon":"S_01_02_scene-04.svg"}],"displaymode":"icon","showcontrol":0,"fixedvalue":"2","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "cls": "",
                 "nobg": 1,
@@ -150,6 +150,7 @@ class Default(object):
 
     def structures(self,n_page,n_structure,struc_area):
         object_list = []
+        object_dicc_newinfo_list = []
         struc_type = self.vis_definition["pages"][n_page]["structures"][n_structure]["type"]
         grid_pos = np.asarray(self.vis_definition["pages"][n_page]["structures"][n_structure]["grid_pos"])
         cell_size = [struc_area["cell_size"][0]*(grid_pos[0][1]-grid_pos[0][0]+1),\
@@ -157,21 +158,57 @@ class Default(object):
 
         # Todos los datos geometricos de longitud estan en porcentage de cell_size
         if struc_type == 1:
-            object_list.append(self.objects(0))
-            locx = 100
-            locy = 100
-            object_list[0]["locx"] = cell_size[0]*locx/100
-            object_list[0]["locy"] = cell_size[1]*locy/100
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 20,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(cell_size[0]/100 * 10),
+                    "height" : int(cell_size[1]/100 * 10)
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
 
-            object_list.append(self.objects(0))
-            locx = 0
-            locy = 0
-            object_list[1]["locx"] = cell_size[0]*locx/100
-            object_list[1]["locy"] = cell_size[1]*locy/100
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 6,
+                "locx" : cell_size[0]/100.0 * 70,
+                "locy" : cell_size[1]/100.0 * 50,
+                "name" : "prueba",
+                "params" : {
+                    "size" : int(cell_size[1]/100.0 * 10)
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
 
         if struc_type == 2:
             object_list.append(self.objects(0))
             object_list.append(self.objects(6))
+
+
+        
+        for i in range(len(object_dicc_newinfo_list)):
+            object_list.append(self.objects(object_dicc_newinfo_list[i]["type"]))
+            for key in object_dicc_newinfo_list[i].keys():
+                if key == "params":
+                    for param_key in object_dicc_newinfo_list[i][key].keys(): 
+                        if param_key == "icons_add":
+                            for j in range(len(object_dicc_newinfo_list[i][key][param_key])):
+                                for icons_key in object_dicc_newinfo_list[i][key][param_key][j].keys():
+                                    object_list[i][key][param_key][j][icons_key] = object_dicc_newinfo_list[i][key][param_key][j][icons_key]
+                        else:
+                            object_list[i][key][param_key] = object_dicc_newinfo_list[i][key][param_key]
+                else:
+                    object_list[i][key] = object_dicc_newinfo_list[i][key]
+
+        for i in range(len(object_list)):
+            if "width" in object_list[i]["params"].keys():
+                object_list[i]["locx"] = object_list[i]["locx"] - object_list[i]["params"]["width"]/2.0
+                object_list[i]["locy"] = object_list[i]["locy"] - object_list[i]["params"]["height"]/2.0
+            elif "size" in object_list[i]["params"].keys():
+                object_list[i]["locx"] = object_list[i]["locx"] - object_list[i]["params"]["size"]*len(object_list[i]["name"])*0.9/2.0
+                object_list[i]["locy"] = object_list[i]["locy"] - object_list[i]["params"]["size"]*1.1/2.0
 
         return object_list
 

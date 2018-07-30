@@ -6,7 +6,7 @@ vis_definition= {
     "lws":{
 
     },
-    "pages": {
+    "plans": {
         "1":{
             "name": "level 2 A",
             "building": 3,
@@ -19,7 +19,8 @@ vis_definition= {
                     "grid_pos" : [[1,1],[1,1]],
                     "objects" : [
                         {
-                            "id" : 1
+                            "id" : 1,
+                            "object": "1/1/5" # 2309
                         },
                         {
                             "id" : 2
@@ -40,7 +41,7 @@ vis_definition= {
             "name": "level 2 B",
             "building": 4,
             "id": 2,
-            "background": "BG_1024x1280px.jpg",
+            "background": "Gol_Sur_CON_ANILLOS.jpg",
             "layout" : 6,
             "structures":{
                 "1": {
@@ -48,7 +49,8 @@ vis_definition= {
                     "grid_pos" : [[1,2],[1,1]],
                     "objects" : [
                         {
-                            "id" : 1
+                            "id" : 1,
+                            "object": "0/0/9"
                         },
                         {
                             "id" : 2
@@ -85,7 +87,7 @@ vis_definition= {
             "parent": 2
         }
     },
-    "id" : 2, # Debe apuntar siempre a uno de los niveles definidos
+    "id" : 2, # Nivel inicial
     "screen_info" : {
         "screen_resolution" : [1000,1000],
         "margins" : [10,10]

@@ -7,9 +7,9 @@ class Default(object):
     def objects(self,type):
         if type == 0:
             object_dicc = {
-                "object": 0,
+                "object": "1/1/5",
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":30,"height":30,"icon_on":"vidgets-dot_on.svg","icon_off":"vidgets-dot_off.svg","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":30,"height":30,"icon_on":"green-on.png","icon_off":"green-off.png","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "nobg": 1,
                 "statusobject": 0,
@@ -25,7 +25,7 @@ class Default(object):
 
         elif type == 1:
             object_dicc = {
-                "object": 0,
+                "object": "1/1/5",
                 "id": 0,
                 "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":140,"height":130,"icon_default":"S_01_02_scene-03.svg","icons_add":[{"min":1,"max":1,"icon":"S_01_02_scene-04.svg"},{"min":2,"max":2,"icon":"S_01_02_scene-03.svg"},{"min":3,"max":3,"icon":"S_01_02_scene-04.svg"}],"displaymode":"icon","showcontrol":0,"fixedvalue":"2","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
@@ -63,7 +63,7 @@ class Default(object):
   
         elif type == 4:
             object_dicc = {
-                "object": 0,
+                "object": "1/1/5",
                 "id": 0,
                 "params": {"autoopen":1,"width":"32","win_width":"480","height":"32","win_height":"360","src":"http://188.134.79.111:8080/anony/mjpg.cgi","icon":"camera.png"},
                 "cls": "",
@@ -122,7 +122,7 @@ class Default(object):
         
         return object_dicc
 
-    def lws(self,type):
+    def lws(self):
         page_def = {
             "width": self.vis_definition["screen_info"]["screen_resolution"][0],
             "layout": 0,
@@ -143,7 +143,7 @@ class Default(object):
 
         return page_def
 
-    def pages(self,type):
+    def plans(self,type):
         if type == 1:
             page_def = {
                 "width": self.vis_definition["screen_info"]["screen_resolution"][0],
@@ -169,11 +169,11 @@ class Default(object):
 
         return page_def
 
-    def structures(self,n_page,n_structure,struc_area):
+    def structures(self,page_key,n_page,n_structure,struc_area):
         object_list = []
         object_dicc_newinfo_list = []
-        struc_type = self.vis_definition["pages"][n_page]["structures"][n_structure]["type"]
-        grid_pos = np.asarray(self.vis_definition["pages"][n_page]["structures"][n_structure]["grid_pos"])
+        struc_type = self.vis_definition[page_key][n_page]["structures"][n_structure]["type"]
+        grid_pos = np.asarray(self.vis_definition[page_key][n_page]["structures"][n_structure]["grid_pos"])
         cell_size = [struc_area["cell_size"][0]*(grid_pos[0][1]-grid_pos[0][0]+1),\
                      struc_area["cell_size"][1]*(grid_pos[1][1]-grid_pos[1][0]+1)]
 
@@ -187,6 +187,9 @@ class Default(object):
                 "params" : {
                     "width" : int(cell_size[0]/100 * 10),
                     "height" : int(cell_size[1]/100 * 10)
+                    # "width" : "",
+                    # "height" : "",
+                    # "size" :  int((cell_size[0] + cell_size[0])/200 * 10)
                 }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)

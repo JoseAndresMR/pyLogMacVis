@@ -6,57 +6,70 @@ class VJC(object):
     def __init__(self,vis_definition):
         self.vis_definition = vis_definition
         self.dflt = Default(vis_definition)
-        self.json_obj = {"lws":[],"plans":{},"levels":{},"id":self.vis_definition["id"]}
-        for n_page in self.vis_definition["pages"].keys():
-            self.add_page(n_page)
+        self.json_obj = {"lws":{},"plans":{},"levels":{},"id":self.vis_definition["id"]}
+
+        for n_lws in self.vis_definition["lws"].keys():
+            self.add_page("lws",n_lws)
+        for n_page in self.vis_definition["plans"].keys():
+            self.add_page("plans",n_page)
         for level in self.vis_definition["levels"].keys():
             self.add_level(level)
 
         self.create_file()
 
-    def add_page(self,n_page):
-        # default_page
-        page_def = self.dflt.pages(1)
-        for key in self.vis_definition["pages"][n_page].keys():
+    def add_page(self,page_key,n_page):  # page: ["lws" or "plans"]
+        if page_key == "lws":
+            page_def = self.dflt.lws
+        elif page_key == "plans":
+            page_def = self.dflt.plans(1)
+
+        for key in self.vis_definition[page_key][n_page].keys():
             if key != "structures" and key != "objects" and key != "grid_size":
-                page_def[key] = self.vis_definition["pages"][n_page][key]
+                page_def[key] = self.vis_definition[page_key][n_page][key]
 
-        self.json_obj["plans"][n_page] = page_def
+        self.json_obj[page_key][n_page] = page_def
 
-        for n_structure in self.vis_definition["pages"][n_page]["structures"].keys():
-            self.add_structure(n_page,n_structure)
+        for n_structure in self.vis_definition[page_key][n_page]["structures"].keys():
+            self.add_structure(page_key,n_page,n_structure)
 
-        for i in range(len(self.vis_definition["pages"][n_page]["objects"])):
-            self.add_object(n_page,i)
+        for i in range(len(self.vis_definition[page_key][n_page]["objects"])):
+            self.add_object(page_key,n_page,i)
 
-    def add_structure(self,n_page,n_structure):
-        struc_area = self.get_struc_area(n_page,n_structure)
+    def add_structure(self,page_key,n_page,n_structure):
+        struc_area = self.get_struc_area(page_key,n_page,n_structure)
 
-        object_list = self.dflt.structures(n_page,n_structure,struc_area)
+        object_list = self.dflt.structures(page_key,n_page,n_structure,struc_area)
 
         for i in range(len(object_list)):
-            for key in self.vis_definition["pages"][n_page]["structures"][n_structure]["objects"][i].keys():
-                object_list[i][key] = self.vis_definition["pages"][n_page]["structures"][n_structure]["objects"][i][key]
+            for key in self.vis_definition[page_key][n_page]["structures"][n_structure]["objects"][i].keys():
+                object_list[i][key] = self.vis_definition[page_key][n_page]["structures"][n_structure]["objects"][i][key]
 
             object_list[i]["locx"] = object_list[i]["locx"] + struc_area["struc_pos"][0]
             object_list[i]["locy"] = object_list[i]["locy"] + struc_area["struc_pos"][1]
 
-            self.add_object_from_struc(n_page,object_list[i])
+            self.add_object_from_struc(page_key,n_page,object_list[i])
 
-    def add_object_from_struc(self,n_page,object_dicc):
-        object_dicc["floor"] = self.vis_definition["pages"][n_page]["id"]
+    def add_object_from_struc(self,page_key,n_page,object_dicc):
+        object_dicc["floor"] = self.vis_definition[page_key][n_page]["id"]
+
+        if object_dicc["type"] == 0 or object_dicc["type"] == 1: 
+            object_dicc["object"] = self.get_number_from_address(object_dicc["object"])
+
         self.params_to_unicode(object_dicc)
-        self.json_obj["plans"][n_page]["objects"].append(object_dicc)
+        self.json_obj[page_key][n_page]["objects"].append(object_dicc)
 
-    def add_object(self,n_page,n_object):
-        object_dicc = self.dflt.objects(self.vis_definition["pages"][n_page]["objects"][n_object]["type"])
+    def add_object(self,page_key,n_page,n_object):
+        object_dicc = self.dflt.objects(self.vis_definition[page_key][n_page]["objects"][n_object]["type"])
 
-        for key in self.vis_definition["pages"][n_page]["objects"][n_object].keys():
-            object_dicc[key] = self.vis_definition["pages"][n_page]["objects"][n_object][key]
+        for key in self.vis_definition[page_key][n_page]["objects"][n_object].keys():
+            object_dicc[key] = self.vis_definition[page_key][n_page]["objects"][n_object][key]
 
-        object_dicc["floor"] = self.vis_definition["pages"][n_page]["id"]
+        if object_dicc["type"] == 0 or object_dicc["type"] == 1: 
+            object_dicc["object"] = self.get_number_from_address(object_dicc["object"])
+
+        object_dicc["floor"] = self.vis_definition[page_key][n_page]["id"]
         self.params_to_unicode(object_dicc)
-        self.json_obj["plans"][n_page]["objects"].append(object_dicc)
+        self.json_obj[page_key][n_page]["objects"].append(object_dicc)
 
     def add_level(self,n_level):
         level_def = self.dflt.levels()
@@ -104,11 +117,11 @@ class VJC(object):
 
         return dicc_in_unicode
 
-    def get_struc_area(self,n_page,n_structure):
+    def get_struc_area(self,page_key,n_page,n_structure):
         screen_resolution = np.asarray(self.vis_definition["screen_info"]["screen_resolution"])
         margins = np.asarray(self.vis_definition["screen_info"]["margins"])
-        grid_size = np.asarray(self.vis_definition["pages"][n_page]["grid_size"])
-        grid_pos = np.asarray(self.vis_definition["pages"][n_page]["structures"][n_structure]["grid_pos"])
+        grid_size = np.asarray(self.vis_definition["plans"][n_page]["grid_size"])
+        grid_pos = np.asarray(self.vis_definition["plans"][n_page]["structures"][n_structure]["grid_pos"])
         
         useful_resolution = screen_resolution - margins*2
         cell_size = useful_resolution / grid_size
@@ -117,5 +130,13 @@ class VJC(object):
 
         struc_area = {"struc_pos" : [locx,locy], "cell_size" : cell_size}
 
-
         return struc_area
+
+    def get_number_from_address(self,address):
+        splitted = np.asarray(str.split(address,"/"))
+        number = int(splitted[2]) +\
+                 int(splitted[1]) * 256 +\
+                 int(splitted[0]) * 8 * 256
+        print number
+
+        return number

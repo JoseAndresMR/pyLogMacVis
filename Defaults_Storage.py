@@ -9,7 +9,7 @@ class Default(object):
             object_dicc = {
                 "object": "1/1/5",
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":30,"height":30,"icon_on":"green-on.png","icon_off":"green-off.png","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":30,"height":30,"icon_on":"","icon_off":"","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "nobg": 1,
                 "statusobject": 0,
@@ -27,7 +27,7 @@ class Default(object):
             object_dicc = {
                 "object": "1/1/5",
                 "id": 0,
-                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":140,"height":130,"icon_default":"S_01_02_scene-03.svg","icons_add":[{"min":1,"max":1,"icon":"S_01_02_scene-04.svg"},{"min":2,"max":2,"icon":"S_01_02_scene-03.svg"},{"min":3,"max":3,"icon":"S_01_02_scene-04.svg"}],"displaymode":"icon","showcontrol":0,"fixedvalue":"2","update":"false","pincode":"","widget":"null","backdrop":0},
+                "params": {"size":"","color":"","font":"","bold":0,"italic":0,"underline":0,"width":140,"height":130,"icon_default":"","icons_add":[],"displaymode":"icon","showcontrol":0,"fixedvalue":"","update":"false","pincode":"","widget":"null","backdrop":0},
                 "sortorder": 1,
                 "cls": "",
                 "nobg": 1,
@@ -148,7 +148,7 @@ class Default(object):
             page_def = {
                 "width": self.vis_definition["screen_info"]["screen_resolution"][0],
                 "id": 1,
-                "background": "",
+                "background": "TOLEDO.jpg",
                 "bgrepeat": 0,
                 "bgfixed": 0,
                 "locx": "",
@@ -161,7 +161,7 @@ class Default(object):
                 "usermode_param": "",
                 "pincode": "",
                 "name": "Bagno",
-                "layout": 1,
+                "layout": 6,
                 "touch_bgcolor": "",
                 "height": self.vis_definition["screen_info"]["screen_resolution"][1],
                 "objects": []
@@ -178,6 +178,20 @@ class Default(object):
                      struc_area["cell_size"][1]*(grid_pos[1][1]-grid_pos[1][0]+1)]
 
         # Todos los datos geometricos de longitud estan en porcentage de cell_size
+        if struc_type == "title":
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 6,
+                "locx" : cell_size[0]/100.0 * 50,
+                "locy" : cell_size[1]/100.0 * 50,
+                "name" : "titulo",
+                "params" : {
+                    "size" : int(min(cell_size[0], cell_size[1])/100.0 * 65),
+                    "translation": "string"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
         if struc_type == 1:
             # Objeto 1
             object_dicc_newinfo = {
@@ -185,11 +199,11 @@ class Default(object):
                 "locx" : cell_size[0]/100.0 * 20,
                 "locy" : cell_size[1]/100.0 * 50,
                 "params" : {
-                    "width" : int(cell_size[0]/100 * 10),
-                    "height" : int(cell_size[1]/100 * 10)
-                    # "width" : "",
-                    # "height" : "",
-                    # "size" :  int((cell_size[0] + cell_size[0])/200 * 10)
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 70),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 70),
+                    "icon_on": "party-active.svg",
+                    "icon_off": "party.svg",
+                    "translation": "dimensions"
                 }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)
@@ -201,16 +215,168 @@ class Default(object):
                 "locy" : cell_size[1]/100.0 * 50,
                 "name" : "prueba",
                 "params" : {
-                    "size" : int(cell_size[1]/100.0 * 10)
+                    "size" : int(min(cell_size[0], cell_size[1])/100.0 * 40),
+                    "translation": "string"
                 }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)
 
         if struc_type == 2:
-            object_list.append(self.objects(0))
-            object_list.append(self.objects(6))
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 40,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "icon_on": "party-active.svg",
+                    "icon_off": "party.svg",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
 
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 6,
+                "locx" : cell_size[0]/100.0 * 80,
+                "locy" : cell_size[1]/100.0 * 50,
+                "name" : "prueba",
+                "params" : {
+                    "size" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "translation": "string"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
 
+            # Objeto 3
+            object_dicc_newinfo = {
+                "type": 1,
+                "locx" : cell_size[0]/100.0 * 15,
+                "locy" : cell_size[1]/100.0 * 50,
+                "name" : "",
+                "readonly": 1,
+                "params" : {
+                    "size" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "translation": "size",
+                    "displaymode": "value"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+        if struc_type == 3:
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 25,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "icon_on": "minus.svg",
+                    "icon_off": "minus.svg",
+                    "fixedvalue": 0,
+                    "displaymode": "icon",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 50,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    # "width" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    # "height" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "size": int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "displaymode": "value",
+                    "translation": "size"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 3
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 75,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "icon_on": "plus.svg",
+                    "icon_off": "plus.svg",
+                    "fixedvalue": 1,
+                    "displaymode": "icon",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 4
+            object_dicc_newinfo = {
+                "type": 7,
+                "locx" : cell_size[0]/100.0 * 50,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(cell_size[0]/100.0 * 100),
+                    "height" : int(cell_size[1]/100.0 * 100),
+                    "src": "13EE3E61.jpg",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+        if struc_type == 4:
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 25,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 60),
+                    "icon_on": "minus.svg",
+                    "icon_off": "minus.svg",
+                    "fixedvalue": 0,
+                    "displaymode": "icon",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 50,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    # "width" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    # "height" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "size": int(min(cell_size[0], cell_size[1])/100.0 * 30),
+                    "displaymode": "value",
+                    "translation": "size"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+        if struc_type == 5:
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 0,
+                "locx" : cell_size[0]/100.0 * 20,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 70),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 70),
+                    "icon_on": "party-active.svg",
+                    "icon_off": "party.svg",
+                    "translation": "dimensions"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
         
         for i in range(len(object_dicc_newinfo_list)):
             object_list.append(self.objects(object_dicc_newinfo_list[i]["type"]))
@@ -227,12 +393,19 @@ class Default(object):
                     object_list[i][key] = object_dicc_newinfo_list[i][key]
 
         for i in range(len(object_list)):
-            if "width" in object_list[i]["params"].keys():
+            if object_list[i]["params"]["translation"] == "dimensions":
                 object_list[i]["locx"] = object_list[i]["locx"] - object_list[i]["params"]["width"]/2.0
                 object_list[i]["locy"] = object_list[i]["locy"] - object_list[i]["params"]["height"]/2.0
-            elif "size" in object_list[i]["params"].keys():
+            
+            elif object_list[i]["params"]["translation"] == "string":
                 object_list[i]["locx"] = object_list[i]["locx"] - object_list[i]["params"]["size"]*len(object_list[i]["name"])*0.9/2.0
                 object_list[i]["locy"] = object_list[i]["locy"] - object_list[i]["params"]["size"]*1.1/2.0
+
+            elif object_list[i]["params"]["translation"] == "size":
+                object_list[i]["locx"] = object_list[i]["locx"] - object_list[i]["params"]["size"]*3/2.0
+                object_list[i]["locy"] = object_list[i]["locy"] - object_list[i]["params"]["size"]*1.1/2.0
+
+            del(object_list[i]["params"]["translation"])
 
         return object_list
 

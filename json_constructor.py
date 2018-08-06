@@ -29,6 +29,8 @@ class VJC(object):
 
         self.json_obj[page_key][n_page] = page_def
 
+        self.add_title_dicc(page_key,n_page)
+
         for n_structure in self.vis_definition[page_key][n_page]["structures"].keys():
             self.add_structure(page_key,n_page,n_structure)
 
@@ -36,7 +38,10 @@ class VJC(object):
             self.add_object(page_key,n_page,i)
 
     def add_structure(self,page_key,n_page,n_structure):
-        struc_area = self.get_struc_area(page_key,n_page,n_structure)
+        if n_structure == "title":
+            struc_area = self.get_title_area(page_key,n_page)
+        else:
+            struc_area = self.get_struc_area(page_key,n_page,n_structure)
 
         object_list = self.dflt.structures(page_key,n_page,n_structure,struc_area)
 
@@ -53,9 +58,11 @@ class VJC(object):
         object_dicc["floor"] = self.vis_definition[page_key][n_page]["id"]
 
         if object_dicc["type"] == 0 or object_dicc["type"] == 1: 
-            object_dicc["object"] = self.get_number_from_address(object_dicc["object"])
+            object_number = self.get_number_from_address(object_dicc["object"])
+            object_dicc["object"] = object_number
+            object_dicc["statusobject"] = object_number
 
-        self.params_to_unicode(object_dicc)
+        object_dicc["params"] = self.dicc_to_unicode(object_dicc["params"])
         self.json_obj[page_key][n_page]["objects"].append(object_dicc)
 
     def add_object(self,page_key,n_page,n_object):
@@ -65,10 +72,12 @@ class VJC(object):
             object_dicc[key] = self.vis_definition[page_key][n_page]["objects"][n_object][key]
 
         if object_dicc["type"] == 0 or object_dicc["type"] == 1: 
-            object_dicc["object"] = self.get_number_from_address(object_dicc["object"])
+            object_number = self.get_number_from_address(object_dicc["object"])
+            object_dicc["object"] = object_number
+            object_dicc["statusobject"] = object_number
 
         object_dicc["floor"] = self.vis_definition[page_key][n_page]["id"]
-        self.params_to_unicode(object_dicc)
+        object_dicc["params"] = self.dicc_to_unicode(object_dicc["params"])
         self.json_obj[page_key][n_page]["objects"].append(object_dicc)
 
     def add_level(self,n_level):
@@ -78,7 +87,14 @@ class VJC(object):
             level_def[key] = self.vis_definition["levels"][n_level][key]
 
         self.json_obj["levels"][n_level] = level_def
-        
+
+    def add_title_dicc(self,page_key,n_page):
+        self.vis_definition[page_key][n_page]["structures"]["title"] = {
+            "type": "title",
+            "grid_pos" : [[0,0],[0,0]],
+            "objects": [{"name": str(self.vis_definition[page_key][n_page]["name"])}]
+        }
+
     def create_file(self):
         path ='./data.json'
         encoded = json.dumps(self.json_obj)
@@ -86,15 +102,12 @@ class VJC(object):
         obj.write(encoded)
         obj.close
 
-    def params_to_unicode(self,object_dicc):   # Abreviar esta funcion
-        object_dicc["params"] = self.dicc_to_unicode(object_dicc["params"])
-
     def dicc_to_unicode(self,dicc_to_change):
         dicc_in_unicode = ""
         for key in dicc_to_change.keys():
             if dicc_in_unicode != "":
                 dicc_in_unicode = dicc_in_unicode + ","
-            if type(dicc_to_change[key]) == int:
+            if type(dicc_to_change[key]) in (int,float):
                 dicc_in_unicode = dicc_in_unicode + "\"{0}\":{1}".format(key,dicc_to_change[key])
             elif dicc_to_change[key] == "null":
                 dicc_in_unicode = dicc_in_unicode + "\"{0}\":null".format(key)
@@ -120,23 +133,40 @@ class VJC(object):
     def get_struc_area(self,page_key,n_page,n_structure):
         screen_resolution = np.asarray(self.vis_definition["screen_info"]["screen_resolution"])
         margins = np.asarray(self.vis_definition["screen_info"]["margins"])
-        grid_size = np.asarray(self.vis_definition["plans"][n_page]["grid_size"])
-        grid_pos = np.asarray(self.vis_definition["plans"][n_page]["structures"][n_structure]["grid_pos"])
-        
-        useful_resolution = screen_resolution - margins*2
+        grid_size = np.asarray(self.vis_definition[page_key][n_page]["grid_size"])  ### Comprobar que no la he liado, la de abajo igual. cambio de page_key por "plans"
+        grid_pos = np.asarray(self.vis_definition[page_key][n_page]["structures"][n_structure]["grid_pos"])
+        title_size = self.get_title_area(page_key,n_page)["cell_size"]
+
+        useful_resolution = screen_resolution - margins*2 - np.asarray([0,title_size[1]])
         cell_size = useful_resolution / grid_size
         locx = margins[0] + cell_size[0] * (grid_pos[0][0]-1)
-        locy = margins[1] + cell_size[1] * (grid_pos[1][0]-1)
+        locy = margins[1] + title_size[1] + cell_size[1] * (grid_pos[1][0]-1)
 
         struc_area = {"struc_pos" : [locx,locy], "cell_size" : cell_size}
 
         return struc_area
+
+    def get_title_area(self,page_key,n_page):
+        screen_resolution = np.asarray(self.vis_definition["screen_info"]["screen_resolution"])
+        margins = np.asarray(self.vis_definition["screen_info"]["margins"])
+        # title_length = np.asarray(self.vis_definition[page_key][n_page]["title_length"])
+        # del(self.vis_definition[page_key][n_page]["title_length"])
+        useful_resolution = screen_resolution - margins*2
+        title_length = useful_resolution[1]*0.2
+        cell_size = [useful_resolution[0],title_length]
+
+        locx = margins[0]
+        locy = margins[1]
+
+        struc_area = {"struc_pos" : [locx,locy], "cell_size" : cell_size}
+
+        return struc_area
+
 
     def get_number_from_address(self,address):
         splitted = np.asarray(str.split(address,"/"))
         number = int(splitted[2]) +\
                  int(splitted[1]) * 256 +\
                  int(splitted[0]) * 8 * 256
-        print number
 
         return number

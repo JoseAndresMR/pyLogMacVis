@@ -36,17 +36,17 @@ for key_1 in df.keys():
         #### Definicion pagina ####
         if len(key_1_splitted) == 1:
             vis_def_plan = vis_definition["plans"][plan]
-            vis_def_plan["id"] = str(plan)
+            vis_def_plan["id"] = int(plan)
             vis_def_plan["name"] = df[key_1][0]
             vis_def_plan["grid_size"] = ast.literal_eval(df[key_1][1])
-            vis_def_plan["building"] = int(plan) + 2
+            vis_def_plan["building"] = int(plan) + 3
 
             #### Definicion nivel simple ####
-            vis_definition["levels"][str(int(plan)+2)] = {}
-            vis_definition["levels"][str(int(plan)+2)]["id"] = int(plan)+2
-            vis_definition["levels"][str(int(plan)+2)]["name"] = df[key_1][0]
-            vis_definition["levels"][str(int(plan)+2)]["sortorder"] = 2
-            vis_definition["levels"][str(int(plan)+2)]["parent"] = 2
+            vis_definition["levels"][str(int(plan)+3)] = {}
+            vis_definition["levels"][str(int(plan)+3)]["id"] = int(plan)+3
+            vis_definition["levels"][str(int(plan)+3)]["name"] = df[key_1][0]
+            vis_definition["levels"][str(int(plan)+3)]["sortorder"] = 2
+            vis_definition["levels"][str(int(plan)+3)]["parent"] = 2
 
         else:
             if (key_1_splitted[1][0]) == "E":
@@ -70,7 +70,8 @@ for key_1 in df.keys():
                     vis_def_structure["objects"].append({"object" : df[key_1][2]})
                     vis_def_structure["objects"].append({"name" : df[key_1][3]})
                     vis_def_structure["objects"].append({"object" : df[key_1][4]})
-
+                    vis_def_structure["objects"].append({})
+                    
                 if struc_type == 3:
                     vis_def_structure["type"] = int(df[key_1][0])
                     vis_def_structure["grid_pos"] = ast.literal_eval(df[key_1][1])

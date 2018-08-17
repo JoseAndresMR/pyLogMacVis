@@ -83,7 +83,7 @@ class Default(object):
             object_dicc = {
                 "locy": 0,
                 "id": 0,
-                "params": {"size":28,"color":"#FFFFFF","font":"Verdana","bold":0,"italic":0,"underline":0},
+                "params": {"size":28,"color":"#000000","font":"Verdana","bold":0,"italic":0,"underline":0},
                 "floor": 0,
                 "type": 6,
                 "nobg": 1,
@@ -122,53 +122,6 @@ class Default(object):
         
         return object_dicc
 
-    def lws(self):
-        page_def = {
-            "width": self.vis_definition["screen_info"]["screen_resolution"][0],
-            "layout": 0,
-            "id": 1,
-            "background": "empty.png",
-            "adminonly": 0,
-            "building": 0,
-            "name": "all",
-            "usermode_param": "",
-            "bgcolor": "#FFFFFF",
-            "sortorder": 1,
-            "bgrepeat": 0,
-            "type": "layout",
-            "touch_param": "",
-            "height": self.vis_definition["screen_info"]["screen_resolution"][1],
-            "objects": []
-        }
-
-        return page_def
-
-    def plans(self,type):
-        if type == 1:
-            page_def = {
-                "width": self.vis_definition["screen_info"]["screen_resolution"][0],
-                "id": 1,
-                "background": "TOLEDO.jpg",
-                "bgrepeat": 0,
-                "bgfixed": 0,
-                "locx": "",
-                "bgcolor": "#E5E5E5",
-                "locy": "",
-                # "background_add": "",
-                "sortorder": 16,
-                "building": 6,
-                "touch_param": "",
-                "usermode_param": "",
-                "pincode": "",
-                "name": "Bagno",
-                "layout": 6,
-                "touch_bgcolor": "",
-                "height": self.vis_definition["screen_info"]["screen_resolution"][1],
-                "objects": []
-            }
-
-        return page_def
-
     def structures(self,page_key,n_page,n_structure,struc_area):
         object_list = []
         object_dicc_newinfo_list = []
@@ -189,6 +142,24 @@ class Default(object):
                     "size" : int(min(cell_size[0], cell_size[1])/100.0 * 65),
                     "translation": "string"
                 }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 2,
+                "object": 1,
+                "locx" : cell_size[0]/100.0 * 85,
+                "locy" : cell_size[1]/100.0 * 50,
+                # "id": 0,
+                "params": {
+                    "displaymode":"icon",
+                    "icon":"party.svg",
+                    "icon_active":"party_active.svg",
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 50),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 50),
+                    "translation" : "dimensions"
+                    }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)
 
@@ -240,7 +211,7 @@ class Default(object):
             # Objeto 2
             object_dicc_newinfo = {
                 "type": 6,
-                "locx" : cell_size[0]/100.0 * 80,
+                "locx" : cell_size[0]/100.0 * 65,
                 "locy" : cell_size[1]/100.0 * 50,
                 "name" : "prueba",
                 "params" : {
@@ -261,6 +232,20 @@ class Default(object):
                     "size" : int(min(cell_size[0], cell_size[1])/100.0 * 30),
                     "translation": "size",
                     "displaymode": "value"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 4
+            object_dicc_newinfo = {
+                "type": 7,
+                "locx" : cell_size[0]/100.0 * 50,
+                "locy" : cell_size[1]/100.0 * 50,
+                "params" : {
+                    "width" : int(cell_size[0]/100.0 * 100),
+                    "height" : int(cell_size[1]/100.0 * 100),
+                    "src": "Al_zoni5_1_page_2.jpg",
+                    "translation": "dimensions"
                 }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)
@@ -323,7 +308,7 @@ class Default(object):
                 "params" : {
                     "width" : int(cell_size[0]/100.0 * 100),
                     "height" : int(cell_size[1]/100.0 * 100),
-                    "src": "13EE3E61.jpg",
+                    "src": "MARSHMELLO.jpg",
                     "translation": "dimensions"
                 }
             }
@@ -377,6 +362,39 @@ class Default(object):
                 }
             }
             object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+        if struc_type == 6:
+            # Objeto 1
+            object_dicc_newinfo = {
+                "type": 2,
+                "object": 1,
+                "locx" : cell_size[0]/100.0 * 25,
+                "locy" : cell_size[1]/100.0 * 60,
+                # "id": 0,
+                "params": {
+                    "displaymode":"icon",
+                    "icon":"party.svg",
+                    "icon_active":"party_active.svg",
+                    "width" : int(min(cell_size[0], cell_size[1])/100.0 * 50),
+                    "height" : int(min(cell_size[0], cell_size[1])/100.0 * 50),
+                    "translation" : "dimensions"
+                    }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
+            # Objeto 2
+            object_dicc_newinfo = {
+                "type": 6,
+                "locx" : cell_size[0]/100.0 * 70,
+                "locy" : cell_size[1]/100.0 * 50,
+                "name" : "prueba",
+                "params" : {
+                    "size" : int(min(cell_size[0], cell_size[1])/100.0 * 40),
+                    "translation": "string"
+                }
+            }
+            object_dicc_newinfo_list.append(object_dicc_newinfo)
+
         
         for i in range(len(object_dicc_newinfo_list)):
             object_list.append(self.objects(object_dicc_newinfo_list[i]["type"]))
@@ -408,6 +426,75 @@ class Default(object):
             del(object_list[i]["params"]["translation"])
 
         return object_list
+
+    def plans(self,type):
+        if type == 1:
+            page_def = {
+                "width": self.vis_definition["screen_info"]["screen_resolution"][0],
+                "id": 1,
+                "background": "TOLEDO.jpg",
+                "bgrepeat": 0,
+                "bgfixed": 0,
+                "locx": "",
+                "bgcolor": "#E5E5E5",
+                "locy": "",
+                # "background_add": "",
+                "sortorder": 16,
+                "building": 6,
+                "touch_param": "",
+                "usermode_param": "",
+                "pincode": "",
+                "name": "Bagno",
+                "layout": 6,
+                "touch_bgcolor": "",
+                "height": self.vis_definition["screen_info"]["screen_resolution"][1],
+                "objects": [],
+                "structures": {}
+            }
+
+        elif type == "menu":
+            page_def = self.plans(1)
+
+            for n_page in self.vis_definition["plans"].keys():
+                if n_page != "1":
+                    grid_size = self.vis_definition["plans"][n_page]["grid_size"]
+                    n_page_aux = int(n_page) - 1
+                    page_def["structures"][str(n_page)] = {
+                        "type" : 6,
+                        "grid_pos" : [[n_page_aux%grid_size[0] + grid_size[0]*((n_page_aux%grid_size[0]) == 0),
+                                       n_page_aux%grid_size[0] + grid_size[0]*((n_page_aux%grid_size[0]) == 0)],
+                                      [n_page_aux/grid_size[0] + 1*((n_page_aux%grid_size[0]) != 0),
+                                       n_page_aux/grid_size[0] + 1*((n_page_aux%grid_size[0]) != 0)]],
+                        "objects":[
+                            {
+                                "object": int(n_page)
+                            },
+                            {"name": self.vis_definition["plans"][n_page]["name"]}
+                        ]
+                    }
+            
+        return page_def
+
+    def lws(self):
+        page_def = {
+            "width": self.vis_definition["screen_info"]["screen_resolution"][0],
+            "layout": 0,
+            "id": 1,
+            "background": "empty.png",
+            "adminonly": 0,
+            "building": 0,
+            "name": "all",
+            "usermode_param": "",
+            "bgcolor": "#FFFFFF",
+            "sortorder": 1,
+            "bgrepeat": 0,
+            "type": "layout",
+            "touch_param": "",
+            "height": self.vis_definition["screen_info"]["screen_resolution"][1],
+            "objects": []
+        }
+
+        return page_def
 
     def levels(self):
         level_def = {

@@ -15,17 +15,26 @@ class VJC(object):
         for level in self.vis_definition["levels"].keys():
             self.add_level(level)
 
+        for n_page in self.vis_definition["plans"].keys():
+            del(self.json_obj["plans"][n_page]["structures"])
         self.create_file()
 
     def add_page(self,page_key,n_page):  # page: ["lws" or "plans"]
         if page_key == "lws":
             page_def = self.dflt.lws
         elif page_key == "plans":
-            page_def = self.dflt.plans(1)
+            if self.vis_definition[page_key][n_page]['id'] == 1:
+                page_def = self.dflt.plans('menu')
+            else:
+                page_def = self.dflt.plans(1)
 
         for key in self.vis_definition[page_key][n_page].keys():
             if key != "structures" and key != "objects" and key != "grid_size":
                 page_def[key] = self.vis_definition[page_key][n_page][key]
+            elif key == "structures":
+                for key_1 in page_def[key].keys():
+                    if key_1 not in self.vis_definition[page_key][n_page][key].keys():
+                        self.vis_definition[page_key][n_page][key] = page_def[key]
 
         self.json_obj[page_key][n_page] = page_def
 
@@ -44,7 +53,7 @@ class VJC(object):
             struc_area = self.get_struc_area(page_key,n_page,n_structure)
 
         object_list = self.dflt.structures(page_key,n_page,n_structure,struc_area)
-
+        
         for i in range(len(object_list)):
             for key in self.vis_definition[page_key][n_page]["structures"][n_structure]["objects"][i].keys():
                 object_list[i][key] = self.vis_definition[page_key][n_page]["structures"][n_structure]["objects"][i][key]
@@ -63,6 +72,7 @@ class VJC(object):
             object_dicc["statusobject"] = object_number
 
         object_dicc["params"] = self.dicc_to_unicode(object_dicc["params"])
+        
         self.json_obj[page_key][n_page]["objects"].append(object_dicc)
 
     def add_object(self,page_key,n_page,n_object):
@@ -92,12 +102,12 @@ class VJC(object):
         self.vis_definition[page_key][n_page]["structures"]["title"] = {
             "type": "title",
             "grid_pos" : [[0,0],[0,0]],
-            "objects": [{"name": str(self.vis_definition[page_key][n_page]["name"])}]
+            "objects": [{"name": str(self.vis_definition[page_key][n_page]["name"])},{}]
         }
 
     def create_file(self):
         path ='./data.json'
-        encoded = json.dumps(self.json_obj)
+        encoded = json.dumps(self.json_obj, sort_keys=True)
         obj = open(path, 'wb')
         obj.write(encoded)
         obj.close
@@ -152,7 +162,7 @@ class VJC(object):
         # title_length = np.asarray(self.vis_definition[page_key][n_page]["title_length"])
         # del(self.vis_definition[page_key][n_page]["title_length"])
         useful_resolution = screen_resolution - margins*2
-        title_length = useful_resolution[1]*0.2
+        title_length = useful_resolution[1]*(0.2+0.1*(n_page=="menu"))
         cell_size = [useful_resolution[0],title_length]
 
         locx = margins[0]
